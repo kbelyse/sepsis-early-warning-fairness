@@ -9,9 +9,9 @@ Machine learning summative project. We predict sepsis in ICU patients up to 6 ho
 
 ## Links
 
-* Report: _add link_
-* Google Drive (raw data zip and best models): _add link_
-* Video: _add link_
+* Report: report link
+* Google Drive (raw data zip and best models): https://drive.google.com/drive/folders/1kCLl9UYY3r6wjTa8AgLvyiPyXFis8pyk?usp=sharing
+* Video: vid link
 
 ## Repository layout
 
