@@ -1,0 +1,13 @@
+run,gap_median,ci_low,ci_high,ci_includes_0
+E1_logreg,0.0105,-0.0677,0.0891,True
+E2_random_forest,-0.1068,-0.194,-0.0256,False
+E3_hgb_default,-0.0204,-0.0959,0.0529,True
+E4_hgb_tuned,-0.0041,-0.0794,0.0643,True
+E5_hgb_no_sex,0.0035,-0.0682,0.0722,True
+E14_hgb_no_time,-0.0056,-0.0747,0.069,True
+E6_mlp,-0.0218,-0.0947,0.0532,True
+E7_gru64,-0.022,-0.0942,0.0486,True
+E8_gru128x2,-0.0427,-0.1204,0.0281,True
+E9_gru64_noweight,-0.0035,-0.0748,0.0665,True
+E10_hgb_reweight_sex,0.0159,-0.057,0.0867,True
+E11_sex_thresholds,-0.0427,-0.1204,0.0281,True
