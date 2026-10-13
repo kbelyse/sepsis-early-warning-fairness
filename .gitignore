@@ -1,0 +1,12 @@
+# raw and processed data (shared through Google Drive, never committed)
+data/
+# virtual environment
+.venv/
+# trained models (in Google Drive)
+models/
+# personal notes
+docs/
+.ipynb_checkpoints/
+.DS_Store
+__pycache__/
+drive_upload/
