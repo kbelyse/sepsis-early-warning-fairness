@@ -9,9 +9,8 @@ Machine learning summative project. We predict sepsis in ICU patients up to 6 ho
 
 ## Links
 
-* Report: report link
 * Google Drive (raw data zip and best models): https://drive.google.com/drive/folders/1kCLl9UYY3r6wjTa8AgLvyiPyXFis8pyk?usp=sharing
-* Video: vid link
+* Video: https://youtu.be/BBeEZDV-tBs
 
 ## Repository layout
 
@@ -37,7 +36,7 @@ The raw data and the trained models are not in this repository. They are in the 
    python -m venv .venv && source .venv/bin/activate
    pip install -r requirements.txt
    ```
-3. Run the notebook (training everything takes about 17 minutes on a laptop CPU (Apple M-series, 16 GB RAM); trained models are cached in `models/runs/` and `data/processed/runs/`, so later runs take about 2 minutes. Set `RETRAIN=1` to train again):
+3. Run the notebook. Trained models are cached in `models/runs/` and `data/processed/runs/`, so a second run only redoes the evaluation. Set `RETRAIN=1` to train everything again:
    ```bash
    jupyter nbconvert --to notebook --execute sepsis_fairness.ipynb --inplace
    ```
@@ -70,13 +69,13 @@ All numbers are on the held-out test patients (15%, never used for training or m
 
 Main observations:
 
-* Most models land around ROC-AUC 0.82 to 0.83. The two-layer GRU (E8) had the best validation PR-AUC (0.110), followed by the MLP; gradient boosting and random forest were close behind and train in seconds.
-* Recall is similar for women and men. The 95% bootstrap interval of the recall gap includes zero for every model except the random forest, which catches more sepsis hours in women but also raises more false alerts for them (`results/bootstrap_recall_gap.csv`).
-* In 10 of 12 models women get a shorter median warning than men (about 2 to 6 hours), but almost all intervals include zero, so this is a trend that needs more data, not a proven gap (`results/bootstrap_warning_time.csv`). All models are tested on the same 178 septic women, so the 10 of 12 are not independent.
-* Removing sex from the inputs (E5) or reweighting women (E10) changed little. For E8, per-sex thresholds (E11) came out almost equal to the shared threshold, because recall was already equal on the validation set.
-* Removing the ICU-time features (E14) lowered ROC-AUC only from 0.831 to 0.820, so the models do not depend on that shortcut alone.
-* Moving to a new hospital hurts a lot: gradient boosting drops to ROC-AUC 0.67 at hospital B and the GRU to 0.74.
-* Lab tests are taken less often for women in this data (lactate about 17% and pH about 20% less often per hour), one possible reason for any gap.
+* Gradient boosting, the MLP and the GRU performed about the same (test ROC-AUC 0.827 to 0.834, against 0.778 for logistic regression). The best test PR-AUC was 0.115 (E6 MLP) and the best validation PR-AUC 0.110 (E8 GRU), where chance is 0.018. Gradient boosting trains much faster.
+* Recall was about equal for women and men. The 95% bootstrap interval of the recall gap includes zero for every model except the random forest, which catches more sepsis hours in women but also gives them more false alerts (`results/bootstrap_recall_gap.csv`).
+* Women tended to get their first warning 2 to 6 hours later in 10 of 12 models, but the intervals include zero, so this is a trend for a larger study, not a proven bias (`results/bootstrap_warning_time.csv`).
+* Women's lactate and pH were measured 17 to 20% less often, a possible reason for the later warnings.
+* Removing sex (E5), reweighting women (E10) and per-sex thresholds (E11) changed little, because there was little recall gap to fix.
+* Removing the ICU-time features (E14) lowered ROC-AUC only from 0.831 to 0.820, so the models do not rely on that shortcut.
+* The biggest drop came from changing hospitals: trained on A and tested on B, ROC-AUC fell to 0.67 for gradient boosting and 0.74 for the GRU.
 
 ## Data licence and citation
 
